@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>grasp tutorial — commands & walkthrough</title>
+<meta name="description" content="grasp tutorial: every command explained, plus an animated walkthrough of the full workflow — new, walk, step, insert, fork, merge, rebase.">
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --line:#2d333b;
+          --fg:#e6edf3; --muted:#8b949e; --accent:#2a7de1; --ok:#3fb950; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg);
+         font-family:-apple-system,"Segoe UI","Noto Sans",sans-serif; line-height:1.65; }
+  .wrap { max-width:1060px; margin:0 auto; padding:0 24px; }
+  header { padding:56px 0 32px; text-align:center;
+           background:radial-gradient(900px 320px at 50% -40px, #12263f 0%, transparent 70%); }
+  .logo { font-size:40px; font-weight:800; letter-spacing:1px; }
+  .logo span { color:var(--accent); }
+  .tagline { font-size:15px; color:var(--muted); margin-top:8px; }
+  .tabs { position:fixed; top:14px; left:16px; z-index:50; display:flex; gap:4px;
+          background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:4px; }
+  .tabs a { padding:6px 16px; border-radius:999px; text-decoration:none; color:var(--muted);
+            font-size:13px; font-weight:600; transition:color .15s, background .15s; }
+  .tabs a.active { color:#fff; background:var(--accent); }
+  .tabs a:hover:not(.active) { color:var(--fg); }
+  .gh-corner { position:fixed; top:14px; right:16px; z-index:50; display:flex; align-items:center;
+              gap:8px; padding:8px 14px; border-radius:999px; text-decoration:none;
+              background:var(--panel); border:1px solid var(--line); color:var(--muted);
+              font-size:13px; font-weight:600; transition:color .15s, border-color .15s; }
+  .gh-corner:hover { color:var(--fg); border-color:var(--accent); }
+  .gh-corner svg { width:18px; height:18px; fill:currentColor; }
+  section { padding:40px 0; border-top:1px solid var(--line); }
+  h2 { font-size:23px; margin-bottom:6px; }
+  .sub { color:var(--muted); margin-bottom:24px; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:500; }
+  td code { background:var(--panel2); border-radius:5px; padding:1px 7px; font-size:12.5px; }
+  td b { color:var(--ok); }
+  .stage { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  .stage canvas { display:block; width:100%; border-radius:10px; background:#0a0e14; }
+  .controls { display:flex; gap:10px; align-items:center; margin-top:14px; flex-wrap:wrap; }
+  .controls button { background:var(--accent); color:#fff; border:0; border-radius:8px;
+              padding:9px 20px; font-size:13.5px; font-weight:600; cursor:pointer; }
+  .controls button.gh { background:var(--panel2); border:1px solid var(--line); }
+  .controls .cap { color:var(--muted); font-size:12.5px; margin-left:4px; }
+  .term { margin-top:14px; background:#0a0e14; border:1px solid var(--line); border-radius:10px;
+          padding:14px 16px; font-family:"SF Mono",Consolas,monospace; font-size:12.5px;
+          min-height:96px; white-space:pre-wrap; color:#c9d1d9; }
+  .term .cmd { color:#d29922; } .term .out { color:#8b949e; } .term .ok { color:#3fb950; }
+  footer { border-top:1px solid var(--line); padding:30px 0 52px; color:var(--muted);
+           font-size:13px; text-align:center; }
+  footer a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav class="tabs" aria-label="site navigation">
+  <a href="index.html">Overview</a>
+  <a href="market.html">Market</a>
+  <a href="tutorial.html" class="active">Tutorial</a>
+</nav>
+
+<a class="gh-corner" href="https://github.com/Void-Universe-Club/grasp"
+   target="_blank" rel="noopener" aria-label="grasp on GitHub">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+  grasp
+</a>
+
+<header>
+  <div class="wrap">
+    <div class="logo">grasp<span> tutorial</span></div>
+    <div class="tagline">Every command, then a live animated walkthrough of the full workflow.</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="commands">
+  <h2>Command reference</h2>
+  <p class="sub">Everything is a subcommand — scriptable from any agent loop.</p>
+  <table>
+    <tr><th>Command</th><th>What it does</th></tr>
+    <tr><td><code>new &lt;graph.json&gt; [--id NAME]</code></td><td>create a session from a graph file</td></tr>
+    <tr><td><code>walk &lt;sid&gt; [--choose N] [--auto N]</code></td><td>stroll the topology — stitch descriptions into a sentence; multi-edge nodes ask; <b>--auto N</b> picks option N at every fork</td></tr>
+    <tr><td><code>step &lt;sid&gt; &lt;node-id&gt;</code></td><td>execute one node (runs its cmd, records output)</td></tr>
+    <tr><td><code>insert &lt;sid&gt; &lt;id&gt; --desc "…" [--cmd "…"] [--edge from,to]</code></td><td>persist knowledge — append a node (+edge), version++</td></tr>
+    <tr><td><code>add-edge &lt;sid&gt; &lt;from&gt; &lt;to&gt; [--label "…"]</code></td><td>append an edge (topology evolution)</td></tr>
+    <tr><td><code>fork &lt;sid&gt;</code></td><td>branch a child session (deep-copy graph + history)</td></tr>
+    <tr><td><code>merge &lt;dst&gt; &lt;src&gt;</code></td><td>merge src's topology into dst — append-only union, conflicts keep dst</td></tr>
+    <tr><td><code>rebase &lt;sid&gt;</code></td><td>sync the parent session's newest topology into this session</td></tr>
+    <tr><td><code>drive &lt;sid&gt; [--max-steps N]</code></td><td>let the LLM decide actions (needs OPENAI_API_KEY)</td></tr>
+    <tr><td><code>status / list / show / dump-svg</code></td><td>inspect: session state · all sessions · one node · topology as SVG</td></tr>
+  </table>
+</section>
+
+<section id="walkthrough">
+  <h2>Animated walkthrough</h2>
+  <p class="sub">The full loop: create → stroll → execute → persist → fork → explore → merge → rebase.</p>
+  <div class="stage">
+    <canvas id="cv" width="1020" height="460"></canvas>
+    <div class="controls">
+      <button id="btn-play">Play</button>
+      <button id="btn-restart" class="gh">Restart</button>
+      <span class="cap" id="cap"></span>
+    </div>
+    <div class="term" id="term"></div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>Contributions welcome.</b> Fork <a href="https://github.com/Void-Universe-Club/grasp">github.com/Void-Universe-Club/grasp</a> or the site repo
+    <a href="https://github.com/Void-Universe-Club/grasp-site">grasp-site</a> — new topologies for the market, docs, or core fixes.</p>
+    <p style="margin-top:10px"><b>Cite in papers:</b> <a href="https://github.com/Void-Universe-Club/grasp">https://github.com/Void-Universe-Club/grasp</a></p>
+    <p style="margin-top:10px; color:#8b949e; font-size:12px;">© 2026 www.void-universe.com — all rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ---- animated walkthrough: the grasp workflow on a canvas timeline ----
+(function () {
+  const cv = document.getElementById('cv');
+  const g = cv.getContext('2d');
+  const term = document.getElementById('term');
+  const cap = document.getElementById('cap');
+  const btnPlay = document.getElementById('btn-play');
+  const btnRestart = document.getElementById('btn-restart');
+  const W = cv.width, H = cv.height;
+
+  // ---------- the demo topology (main session) ----------
+  const NODES = {
+    n_start:   { x: 120, y: 300, kind: 'exec',  label: 'n_start\nstart' },
+    n_plan:    { x: 360, y: 190, kind: 'exec',  label: 'n_plan\nplan' },
+    n_ask:     { x: 600, y: 120, kind: 'ask',   label: 'n_ask\nask' },
+    n_explore: { x: 600, y: 300, kind: 'exec',  label: 'n_explore\nexplore' },
+    n_fork:    { x: 840, y: 300, kind: 'fork',  label: 'n_fork\nbranch' },
+    n_done:    { x: 840, y: 120, kind: 'conclude', label: 'n_done\nend' }
+  };
+  const EDGES = [
+    { from: 'n_start',   to: 'n_plan',    label: 'go plan' },
+    { from: 'n_plan',    to: 'n_ask',     label: 'ask user' },
+    { from: 'n_plan',    to: 'n_explore', label: 'explore' },
+    { from: 'n_ask',     to: 'n_done',    label: 'finish', fallback: true },
+    { from: 'n_explore', to: 'n_fork',    label: 'branch' }
+  ];
+  const KIND_COLOR = { exec: '#2a7de1', ask: '#d29922', conclude: '#3fb950', fork: '#bc8cff' };
+
+  // ---------- timeline phases ----------
+  // each phase: { dur, cmd, out, draw(t) } with t in [0,1]
+  const phases = [];
+  let mainVer = 1, childVer = 1;
+  let childVisible = false, childNodes = {};   // child topology (fork copy)
+  let mergedNodes = [];                        // nodes merged back from child
+  let rebasedEdges = [];                       // edges synced to child by rebase
+
+  function nodePos(id, inChild) {
+    const base = inChild ? { x: NODES[id].x + 40, y: NODES[id].y + 170 }
+                         : { x: NODES[id].x, y: NODES[id].y };
+    return base;
+  }
+  function nodeRadius(id) { return id === 'n_start' || id === 'n_done' ? 30 : 36; }
+
+  function drawNode(ctx, id, alpha, flash, inChild) {
+    const n = inChild ? childNodes[id] : NODES[id];
+    if (!n) return;
+    const p = nodePos(id, inChild);
+    const r = nodeRadius(id);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#161b22';
+    ctx.strokeStyle = flash ? '#f85149' : KIND_COLOR[n.kind];
+    ctx.lineWidth = flash ? 4 : 2;
+    ctx.beginPath();
+    ctx.roundRect(p.x - r, p.y - r, r * 2, r * 2, 10);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#e6edf3'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'center';
+    const lines = n.label.split('\n');
+    ctx.fillText(lines[0], p.x, p.y - 2);
+    ctx.font = '10px monospace'; ctx.fillStyle = '#8b949e';
+    if (lines[1]) ctx.fillText(lines[1], p.x, p.y + 13);
+    ctx.globalAlpha = 1;
+  }
+
+  function drawEdge(ctx, a, b, alpha, label, dashed, inChild) {
+    const pa = nodePos(a, inChild), pb = nodePos(b, inChild);
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = '#8b949e';
+    ctx.lineWidth = 1.6;
+    ctx.setLineDash(dashed ? [5,4] : []);
+    ctx.beginPath();
+    ctx.moveTo(pa.x, pa.y);
+    const mid = { x: (pa.x + pb.x) / 2, y: (pa.y + pb.y) / 2 };
+    ctx.quadraticCurveTo(mid.x, pa.y, pb.x, pb.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    if (label) {
+      ctx.fillStyle = '#8b949e'; ctx.font = 'italic 10px monospace'; ctx.textAlign = 'center';
+      ctx.fillText(label, mid.x, (pa.y + pb.y) / 2 - 6);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawAgent(ctx, p, color) {
+    ctx.fillStyle = color || '#f85149';
+    ctx.beginPath(); ctx.arc(p.x, p.y, 7, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(p.x, p.y, 7, 0, 7); ctx.stroke();
+  }
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function ease(t) { return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
+
+  // phase 0: new — nodes and edges fade in
+  phases.push({
+    dur: 3.2, cmd: '$ ./grasp new graphs/example.json --id demo',
+    out: 'session demo created (graph example v1)',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      const k = Math.min(1, t * 1.4);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5 * k, e.label, e.fallback);
+      Object.keys(NODES).forEach((id, i) => {
+        const a = Math.max(0, Math.min(1, (t * 1.4) - i * 0.12));
+        drawNode(g, id, a, false);
+      });
+    }
+  });
+
+  // phase 1: walk — agent strolls start -> plan -> ask, stitched sentence
+  phases.push({
+    dur: 4.5, cmd: '$ ./grasp walk demo',
+    out: 'Walking from n_start: start → plan. There are 2 options: 1. ask user 2. explore. Which do you choose?',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false));
+      // agent path: start -> plan -> pause at ask (multi-edge)
+      const p1 = nodePos('n_start'), p2 = nodePos('n_plan'), p3 = nodePos('n_ask');
+      const seg = t * 1.2;
+      if (seg < 1) drawAgent(g, { x: lerp(p1.x,p2.x,ease(seg)), y: lerp(p1.y,p2.y,ease(seg)) });
+      else drawAgent(g, { x: lerp(p2.x,p3.x,ease(seg-1)), y: lerp(p2.y,p3.y,ease(seg-1)) });
+      // highlight the ask node (stops and asks)
+      drawNode(g, 'n_ask', 1, t > 0.85);
+    }
+  });
+
+  // phase 2: step — execute n_explore
+  phases.push({
+    dur: 3.2, cmd: '$ ./grasp step demo n_explore',
+    out: '== node n_explore [exec]: "explore"\n   output: "found a promising idea"\n   next: n_fork (branch)',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, id === 'n_explore' && Math.sin(t*20) > 0));
+      const p1 = nodePos('n_plan'), p2 = nodePos('n_explore');
+      drawAgent(g, { x: lerp(p1.x,p2.x,ease(Math.min(1,t*1.3))), y: lerp(p1.y,p2.y,ease(Math.min(1,t*1.3))) });
+      if (t > 0.5) {
+        g.fillStyle = '#3fb950'; g.font = '11px monospace'; g.textAlign = 'center';
+        g.fillText('"found a promising idea"', p2.x, p2.y - 46);
+      }
+    }
+  });
+
+  // phase 3: insert — persist a lesson as a new node+edge, version++
+  phases.push({
+    dur: 3.6, cmd: '$ ./grasp insert demo n_lesson --desc "lesson: ..." --edge n_explore,n_lesson',
+    out: 'inserted node n_lesson [exec] + edge n_explore->n_lesson | graph v2',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, e.label, e.fallback);
+      const px = NODES.n_explore.x, py = NODES.n_explore.y;
+      const grow = Math.min(1, Math.max(0, (t - 0.3) * 1.6));
+      if (grow > 0) {
+        const nx = px + 130, ny = py + 60;
+        drawEdge(g, 'n_explore', 'n_lesson', 0.6 * grow, 'lesson', false);
+        g.globalAlpha = grow;
+        g.fillStyle = '#161b22'; g.strokeStyle = '#3fb950'; g.lineWidth = 2;
+        g.beginPath(); g.roundRect(nx - 34, ny - 26, 68, 52, 10); g.fill(); g.stroke();
+        g.fillStyle = '#e6edf3'; g.font = 'bold 11px monospace'; g.textAlign = 'center';
+        g.fillText('n_lesson', nx, ny - 2);
+        g.font = '10px monospace'; g.fillStyle = '#8b949e';
+        g.fillText('lesson', nx, ny + 14);
+        g.globalAlpha = 1;
+      }
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false));
+      const p1 = nodePos('n_explore'), p2 = nodePos('n_fork');
+      const a2 = { x: lerp(p1.x,p2.x,0.5), y: lerp(p1.y,p2.y,0.5) };
+      drawAgent(g, { x: lerp(a2.x, px+130, Math.min(1,grow)), y: lerp(a2.y, py+60, Math.min(1,grow)) });
+      // version badge
+      g.fillStyle = '#d29922'; g.font = 'bold 12px monospace'; g.textAlign = 'left';
+      g.fillText('graph v2', 16, 26);
+    }
+  });
+
+  // phase 4: fork — child session deep-copies the topology
+  phases.push({
+    dur: 3.4, cmd: '$ ./grasp fork demo',
+    out: 'forked demo -> s-…-1 (child: deep-copied graph + inherited history)',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      const k = Math.min(1, t * 1.5);
+      // main session (fade slightly)
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.35, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 0.7, false));
+      // child session box slides in below
+      if (k > 0) {
+        g.globalAlpha = k;
+        g.strokeStyle = '#2d333b'; g.lineWidth = 1.5;
+        g.strokeRect(70, 420, 900, 34);
+        g.fillStyle = '#8b949e'; g.font = 'bold 11px monospace'; g.textAlign = 'left';
+        g.fillText('child session (fork)', 80, 442);
+        for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5*k, null, false, true);
+        Object.keys(NODES).forEach(id => drawNode(g, id, k, false, true));
+        childVisible = true;
+        // copy topology into childNodes
+        childNodes = {};
+        Object.keys(NODES).forEach(id => { childNodes[id] = NODES[id]; });
+        childVer = mainVer;
+      }
+      g.fillStyle = '#d29922'; g.font = 'bold 12px monospace';
+      g.fillText('graph v2', 16, 26);
+      drawAgent(g, { x: nodePos('n_start', true).x, y: nodePos('n_start', true).y }, '#58a6ff');
+      g.globalAlpha = 1;
+    }
+  });
+
+  // phase 5: child explores — inserts its own branch
+  phases.push({
+    dur: 3.6, cmd: '$ ./grasp insert <child> c_branch --desc "child idea" --edge n_explore,c_branch',
+    out: 'inserted node c_branch [exec] + edge n_explore->c_branch | graph v2',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.35, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 0.7, false));
+      g.strokeStyle = '#2d333b'; g.strokeRect(70, 420, 900, 34);
+      g.fillStyle = '#8b949e'; g.font = 'bold 11px monospace'; g.textAlign = 'left';
+      g.fillText('child session (fork)', 80, 442);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, null, false, true);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false, true));
+      const grow = Math.min(1, Math.max(0, (t - 0.3) * 1.6));
+      if (grow > 0) {
+        const base = nodePos('n_explore', true);
+        const nx = base.x + 130, ny = base.y + 50;
+        drawEdge(g, 'n_explore', 'c_branch', 0.6*grow, 'child idea', false, true);
+        g.globalAlpha = grow;
+        g.fillStyle = '#161b22'; g.strokeStyle = '#3fb950'; g.lineWidth = 2;
+        g.beginPath(); g.roundRect(nx - 36, ny - 26, 72, 52, 10); g.fill(); g.stroke();
+        g.fillStyle = '#e6edf3'; g.font = 'bold 11px monospace'; g.textAlign = 'center';
+        g.fillText('c_branch', nx, ny - 2);
+        g.font = '10px monospace'; g.fillStyle = '#8b949e';
+        g.fillText('child idea', nx, ny + 14);
+        g.globalAlpha = 1;
+      }
+      drawAgent(g, nodePos('n_explore', true), '#58a6ff');
+      g.fillStyle = '#d29922'; g.font = 'bold 12px monospace';
+      g.fillText('main v2 | child v2', 16, 26);
+    }
+  });
+
+  // phase 6: merge — child's branch merges back into main (append-only union)
+  phases.push({
+    dur: 3.8, cmd: '$ ./grasp merge demo <child>',
+    out: 'merged 1 node(s), 1 edge(s) | graph v3',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      const k = Math.min(1, t * 1.4);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false));
+      // flying node: child position -> main position
+      const from = { x: nodePos('n_explore', true).x + 130, y: nodePos('n_explore', true).y + 50 };
+      const to = { x: NODES.n_explore.x + 130, y: NODES.n_explore.y + 60 };
+      if (k > 0) {
+        const fx = lerp(from.x, to.x, ease(k)), fy = lerp(from.y, to.y, ease(k));
+        g.globalAlpha = 1;
+        g.fillStyle = '#3fb950';
+        g.beginPath(); g.arc(fx, fy, 8, 0, 7); g.fill();
+        if (k >= 1) {
+          mergedNodes = [{ id: 'c_branch', x: to.x, y: to.y }];
+          g.fillStyle = '#161b22'; g.strokeStyle = '#3fb950'; g.lineWidth = 2;
+          g.beginPath(); g.roundRect(to.x - 36, to.y - 26, 72, 52, 10); g.fill(); g.stroke();
+          g.fillStyle = '#e6edf3'; g.font = 'bold 11px monospace'; g.textAlign = 'center';
+          g.fillText('c_branch', to.x, to.y - 2);
+          g.font = '10px monospace'; g.fillStyle = '#8b949e';
+          g.fillText('merged', to.x, to.y + 14);
+          drawEdge(g, 'n_explore', 'c_branch', 0.6, 'child idea', false);
+        }
+      }
+      // child box
+      g.globalAlpha = 0.4;
+      g.strokeRect(70, 420, 900, 34);
+      g.fillStyle = '#8b949e'; g.font = 'bold 11px monospace';
+      g.fillText('child session', 80, 442);
+      g.globalAlpha = 1;
+      g.fillStyle = '#d29922'; g.font = 'bold 12px monospace'; g.textAlign = 'left';
+      g.fillText('graph v3', 16, 26);
+    }
+  });
+
+  // phase 7: rebase — parent's new edge syncs into the child
+  phases.push({
+    dur: 3.6, cmd: '$ ./grasp rebase <child>',
+    out: 'rebased <child> from parent demo: merged 0 node(s), 1 edge(s) | graph v3',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false));
+      if (mergedNodes.length) {
+        const m = mergedNodes[0];
+        g.fillStyle = '#161b22'; g.strokeStyle = '#3fb950'; g.lineWidth = 2;
+        g.beginPath(); g.roundRect(m.x - 36, m.y - 26, 72, 52, 10); g.fill(); g.stroke();
+        g.fillStyle = '#e6edf3'; g.font = 'bold 11px monospace'; g.textAlign = 'center';
+        g.fillText('c_branch', m.x, m.y - 2);
+        g.font = '10px monospace'; g.fillStyle = '#8b949e';
+        g.fillText('merged', m.x, m.y + 14);
+        drawEdge(g, 'n_explore', 'c_branch', 0.6, 'child idea', false);
+      }
+      // child box with new synced edge (n_plan -> n_explore dashed appears)
+      const k = Math.min(1, Math.max(0, (t - 0.2) * 1.8));
+      g.globalAlpha = 0.5;
+      g.strokeRect(70, 420, 900, 34);
+      g.fillStyle = '#8b949e'; g.font = 'bold 11px monospace'; g.textAlign = 'left';
+      g.fillText('child session (rebased)', 80, 442);
+      g.globalAlpha = 1;
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, null, false, true);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false, true));
+      if (k > 0) {
+        drawEdge(g, 'n_plan', 'n_explore', 0.7 * k, 'synced', true, true);
+        g.fillStyle = '#3fb950'; g.font = 'bold 10px monospace'; g.textAlign = 'center';
+        g.fillText('+ edge from parent', nodePos('n_plan', true).x + 30, nodePos('n_plan', true).y - 52);
+      }
+      g.fillStyle = '#d29922'; g.font = 'bold 12px monospace'; g.textAlign = 'left';
+      g.fillText('main v3 | child v3', 16, 26);
+    }
+  });
+
+  // phase 8: wrap up
+  phases.push({
+    dur: 2.2, cmd: '', out: 'Workflow complete — the child explored, merged back, and stays in sync. Graph = the agent\'s evolving brain.',
+    draw(t) {
+      g.clearRect(0,0,W,H);
+      for (const e of EDGES) drawEdge(g, e.from, e.to, 0.5, e.label, e.fallback);
+      Object.keys(NODES).forEach(id => drawNode(g, id, 1, false));
+      if (mergedNodes.length) {
+        const m = mergedNodes[0];
+        g.fillStyle = '#161b22'; g.strokeStyle = '#3fb950'; g.lineWidth = 2;
+        g.beginPath(); g.roundRect(m.x - 36, m.y - 26, 72, 52, 10); g.fill(); g.stroke();
+        g.fillStyle = '#e6edf3'; g.font = 'bold 11px monospace'; g.textAlign = 'center';
+        g.fillText('c_branch', m.x, m.y - 2);
+        g.fillText('merged', m.x, m.y + 14);
+      }
+      g.globalAlpha = 0.5;
+      g.strokeRect(70, 420, 900, 34);
+      g.fillStyle = '#8b949e'; g.font = 'bold 11px monospace'; g.textAlign = 'left';
+      g.fillText('child session (rebased)', 80, 442);
+      g.globalAlpha = 1;
+      g.fillStyle = '#3fb950'; g.font = 'bold 14px monospace'; g.textAlign = 'center';
+      g.fillText('✓ topology = accumulated knowledge', W/2, 70);
+    }
+  });
+
+  // ---------- playback ----------
+  let t0 = 0, phaseIdx = 0, raf = null, playing = false;
+  function totalDur() { return phases.reduce((a,p) => a + p.dur, 0); }
+
+  function typeTerm(idx, elapsed) {
+    const p = phases[idx];
+    if (!p) return;
+    let text = '';
+    for (let i = 0; i <= idx; ++i) {
+      const q = phases[i];
+      if (q.cmd) text += '<span class="cmd">' + q.cmd + '</span>\n';
+      if (q.out) text += '<span class="out">' + q.out + '</span>\n';
+      if (i < idx) text += '\n';
+    }
+    const cur = phases[idx];
+    const outChars = (cur.out || '').length;
+    const typed = Math.min(1, elapsed / Math.max(0.3, cur.dur - 0.4));
+    if (cur.out) {
+      const shown = Math.floor(outChars * typed);
+      text += '<span class="out">' + cur.out.slice(0, shown) + (shown < outChars ? '▌' : '') + '</span>';
+    }
+    term.innerHTML = text;
+    term.scrollTop = term.scrollHeight;
+  }
+
+  function frame(now) {
+    if (!playing) return;
+    const elapsed = (now - t0) / 1000;
+    let acc = 0;
+    let idx = 0;
+    for (; idx < phases.length; ++idx) {
+      if (elapsed < acc + phases[idx].dur) break;
+      acc += phases[idx].dur;
+    }
+    if (idx >= phases.length) {
+      idx = phases.length - 1;
+      playing = false;
+      btnPlay.textContent = 'Replay';
+      cap.textContent = 'done';
+      phases[idx].draw(1);
+      typeTerm(idx, 999);
+      return;
+    }
+    phaseIdx = idx;
+    const t = Math.max(0, Math.min(1, (elapsed - acc) / phases[idx].dur));
+    phases[idx].draw(t);
+    typeTerm(idx, elapsed - acc);
+    cap.textContent = 'step ' + (idx + 1) + ' / ' + phases.length + ' — ' +
+      (phases[idx].cmd || 'done').replace(/^\$ /, '');
+    raf = requestAnimationFrame(frame);
+  }
+
+  function play() {
+    if (playing) return;
+    playing = true;
+    btnPlay.textContent = 'Playing…';
+    t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+
+  function restart() {
+    playing = false;
+    if (raf) cancelAnimationFrame(raf);
+    phaseIdx = 0; childVisible = false; childNodes = {}; mergedNodes = [];
+    term.innerHTML = '';
+    cap.textContent = 'ready — press Play';
+    phases[0].draw(0);
+    btnPlay.textContent = 'Play';
+  }
+
+  btnPlay.addEventListener('click', () => { if (!playing) play(); });
+  btnRestart.addEventListener('click', restart);
+
+  restart();
+})();
+</script>
+
+</body>
+</html>

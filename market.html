@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>grasp market — fine-tuned graph topologies</title>
+<meta name="description" content="grasp market: installable graph topologies for LLM agents — fine-tuned by agents or hand-written by humans. Search, download, and install with one command.">
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --line:#2d333b;
+          --fg:#e6edf3; --muted:#8b949e; --accent:#2a7de1; --ok:#3fb950; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg);
+         font-family:-apple-system,"Segoe UI","Noto Sans",sans-serif; line-height:1.65; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+  header { padding:64px 0 36px; text-align:center;
+           background:radial-gradient(900px 320px at 50% -40px, #12263f 0%, transparent 70%); }
+  .logo { font-size:44px; font-weight:800; letter-spacing:1px; }
+  .logo span { color:var(--accent); }
+  .tagline { font-size:16px; color:var(--muted); margin-top:10px; }
+  .tabs { position:fixed; top:14px; left:16px; z-index:50; display:flex; gap:4px;
+          background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:4px; }
+  .tabs a { padding:6px 16px; border-radius:999px; text-decoration:none; color:var(--muted);
+            font-size:13px; font-weight:600; transition:color .15s, background .15s; }
+  .tabs a.active { color:#fff; background:var(--accent); }
+  .tabs a:hover:not(.active) { color:var(--fg); }
+  .gh-corner { position:fixed; top:14px; right:16px; z-index:50; display:flex; align-items:center;
+              gap:8px; padding:8px 14px; border-radius:999px; text-decoration:none;
+              background:var(--panel); border:1px solid var(--line); color:var(--muted);
+              font-size:13px; font-weight:600; transition:color .15s, border-color .15s; }
+  .gh-corner:hover { color:var(--fg); border-color:var(--accent); }
+  .gh-corner svg { width:18px; height:18px; fill:currentColor; }
+  .searchbar { display:flex; gap:10px; margin-bottom:22px; }
+  .searchbar input { flex:1; background:var(--panel); border:1px solid var(--line);
+              border-radius:10px; padding:12px 16px; color:var(--fg); font-size:14.5px;
+              outline:none; transition:border-color .15s; }
+  .searchbar input:focus { border-color:var(--accent); }
+  .searchbar input::placeholder { color:var(--muted); }
+  .searchbar select { background:var(--panel); border:1px solid var(--line); border-radius:10px;
+              padding:12px 14px; color:var(--fg); font-size:13.5px; outline:none; cursor:pointer; }
+  .mkt-card { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+              padding:20px 22px; margin-bottom:14px; display:flex; gap:16px; align-items:flex-start; }
+  .mkt-card .mkt-info { flex:1; min-width:0; }
+  .mkt-card h3 { font-size:15px; color:var(--accent); }
+  .mkt-card .mkt-tags { margin-top:6px; }
+  .mkt-card .mkt-tags span { display:inline-block; border:1px solid var(--line); border-radius:999px;
+              padding:2px 10px; font-size:11px; color:var(--muted); margin:2px 4px 0 0; }
+  .mkt-card .mkt-desc { font-size:13.5px; color:var(--muted); margin-top:8px; }
+  .mkt-card .mkt-meta { font-size:12px; color:var(--muted); margin-top:8px;
+              font-family:"SF Mono",Consolas,monospace; }
+  .mkt-card .mkt-install { margin-top:10px; background:var(--code,#0a0e14); border:1px solid var(--line);
+              border-radius:8px; padding:10px 12px; font-size:12px; color:var(--ok);
+              font-family:"SF Mono",Consolas,monospace; overflow-x:auto; white-space:nowrap; }
+  .mkt-card a.btn { display:inline-block; padding:8px 18px; border-radius:8px;
+              background:var(--accent); color:#fff; text-decoration:none; font-weight:600; font-size:13px; }
+  .mkt-empty { color:var(--muted); text-align:center; padding:40px 0; }
+  .mkt-howto { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+              padding:20px 22px; margin-top:26px; }
+  .mkt-howto h3 { color:var(--ok); font-size:15px; margin-bottom:8px; }
+  .mkt-howto ol { margin:10px 0 0 20px; font-size:14px; color:var(--muted); }
+  .mkt-howto li { margin-bottom:6px; }
+  .mkt-howto code { background:var(--panel2); border-radius:5px; padding:1px 7px; font-size:12.5px; }
+  footer { border-top:1px solid var(--line); padding:32px 0 56px; color:var(--muted);
+           font-size:13px; text-align:center; }
+  footer a { color:var(--accent); text-decoration:none; }
+  #mkt-count { color:var(--muted); font-size:13px; margin-bottom:14px; }
+</style>
+</head>
+<body>
+
+<nav class="tabs" aria-label="site navigation">
+  <a href="index.html">Overview</a>
+  <a href="market.html" class="active">Market</a>
+  <a href="tutorial.html">Tutorial</a>
+</nav>
+
+<a class="gh-corner" href="https://github.com/Void-Universe-Club/grasp"
+   target="_blank" rel="noopener" aria-label="grasp on GitHub">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+  grasp
+</a>
+
+<header>
+  <div class="wrap">
+    <div class="logo">grasp<span> market</span></div>
+    <div class="tagline">Fine-tuned graph topologies — install a skill with one command.</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="searchbar">
+  <input id="mkt-q" type="search" placeholder="Search by name, tag, description, author…" autofocus>
+  <select id="mkt-sort" aria-label="sort order">
+    <option value="name">Sort: name</option>
+    <option value="newest">Sort: newest</option>
+    <option value="oldest">Sort: oldest</option>
+  </select>
+</div>
+
+<div id="mkt-count"></div>
+<div id="mkt-list"></div>
+<div id="mkt-empty" class="mkt-empty" style="display:none">No topologies match your search.</div>
+
+<div class="mkt-howto">
+  <h3>Submit a topology to the market</h3>
+  <ol>
+    <li>Author your topology as a versioned, append-only graph JSON (same schema as <code>graphs/*.json</code> — nodes, edges, entry, version).</li>
+    <li>Fork <code>Void-Universe-Club/grasp-site</code> and add your file as <code>market/&lt;name&gt;.json</code>.</li>
+    <li>Add an entry to <code>market/index.json</code> (id / name / version / author / tags / desc / file).</li>
+    <li>Open a pull request — once merged, it appears here and is installable for everyone.</li>
+  </ol>
+</div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>Contributions welcome.</b> Fork <a href="https://github.com/Void-Universe-Club/grasp">github.com/Void-Universe-Club/grasp</a> or the site repo
+    <a href="https://github.com/Void-Universe-Club/grasp-site">grasp-site</a> — new topologies for the market, docs, or core fixes.</p>
+    <p style="margin-top:10px"><b>Cite in papers:</b> <a href="https://github.com/Void-Universe-Club/grasp">https://github.com/Void-Universe-Club/grasp</a></p>
+    <p style="margin-top:10px; color:#8b949e; font-size:12px;">© 2026 www.void-universe.com — all rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ---- grasp market: searchable registry of installable topologies ----
+(function () {
+  const list = document.getElementById('mkt-list');
+  const empty = document.getElementById('mkt-empty');
+  const count = document.getElementById('mkt-count');
+  const q = document.getElementById('mkt-q');
+  const sort = document.getElementById('mkt-sort');
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let entries = [];
+
+  function score(e, needle) {
+    if (!needle) return 1;
+    const hay = (e.name + ' ' + e.id + ' ' + e.desc + ' ' + (e.author||'') + ' ' +
+                 (e.tags||[]).join(' ')).toLowerCase();
+    if (hay.indexOf(needle) >= 0) return 2;
+    const words = needle.split(/\s+/).filter(Boolean);
+    const hit = words.every(w => hay.indexOf(w) >= 0);
+    return hit ? 1 : 0;
+  }
+
+  function render() {
+    const needle = q.value.trim().toLowerCase();
+    const mode = sort.value;
+    const shown = entries
+      .map(e => ({ e, s: score(e, needle) }))
+      .filter(x => x.s > 0)
+      .sort((a, b) => b.s - a.s ||
+        (mode === 'newest' ? (b.e.added||'') < (a.e.added||'') : 0) ||
+        (mode === 'oldest' ? (a.e.added||'') < (b.e.added||'') : 0) ||
+        a.e.name.localeCompare(b.e.name));
+    count.textContent = shown.length + ' of ' + entries.length + ' topologies';
+    empty.style.display = shown.length ? 'none' : 'block';
+    list.innerHTML = shown.map(({ e }) =>
+      '<div class="mkt-card"><div class="mkt-info">' +
+      '<h3>' + esc(e.name) + '</h3>' +
+      '<div class="mkt-tags">' + (e.tags||[]).map(t => '<span>' + esc(t) + '</span>').join('') + '</div>' +
+      '<p class="mkt-desc">' + esc(e.desc) + '</p>' +
+      '<p class="mkt-meta">' + esc(e.id) + ' · v' + esc(String(e.version)) + ' · ' + esc(e.author||'anonymous') +
+      (e.added ? ' · ' + esc(e.added) : '') + '</p>' +
+      '<div class="mkt-install">$ curl -O https://void-universe-club.github.io/grasp-site/' + esc(e.file) +
+      '<br>$ ./grasp new ' + esc(e.file.split('/').pop()) + ' --id my-' + esc(e.id) + '</div>' +
+      '</div>' +
+      '<div><a class="btn" href="' + esc(e.file) + '" download>Download</a></div>' +
+      '</div>'
+    ).join('');
+  }
+
+  q.addEventListener('input', render);
+  sort.addEventListener('change', render);
+
+  fetch('market/index.json').then(r => r.json()).then(d => {
+    entries = d.entries || [];
+    render();
+  }).catch(() => {
+    count.textContent = '0 topologies (index.json unreachable)';
+    empty.style.display = 'block';
+  });
+})();
+</script>
+
+</body>
+</html>

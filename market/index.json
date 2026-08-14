@@ -1,0 +1,15 @@
+{
+  "market": "grasp market",
+  "updated": "2026-08-15",
+  "entries": [
+    {
+      "id": "galois_meta",
+      "name": "Galois Analyst — a mathematician's thinking topology",
+      "version": 1,
+      "author": "grasp team",
+      "tags": ["math", "reasoning", "meta"],
+      "desc": "A meta-topology embodying Galois' brain: structure before computation, symmetry as the lens, the Galois group as the solvability gate, doubt as the engine. Install it and let your agent reason like a mathematician.",
+      "file": "market/galois_meta.json"
+    }
+  ]
+}

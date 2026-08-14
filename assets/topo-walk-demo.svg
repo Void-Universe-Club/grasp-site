@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000" font-family="Noto Serif CJK SC,PingFang SC,Microsoft YaHei,sans-serif">
+<path d="M1410.0 910.0 Q 1081.4 717.0 752.8 524.0" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M752.8 524.0 Q 421.4 339.0 90.0 154.0" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<text x="421.4" y="333.0" font-size="10" fill="#8a8a8a" text-anchor="middle">find food</text>
+<path d="M752.8 524.0 Q 433.7 307.0 114.7 90.0" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<text x="433.7" y="301.0" font-size="10" fill="#8a8a8a" text-anchor="middle">sleep</text>
+<rect x="1310.0" y="890.0" width="200" height="40" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1410.0" y="904.0" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">A · v1</text>
+<text x="1410.0" y="920.0" font-size="10.5" fill="#333" text-anchor="middle">at home</text>
+<rect x="652.8" y="504.0" width="200" height="40" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="752.8" y="518.0" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">B · v2</text>
+<text x="752.8" y="534.0" font-size="10.5" fill="#333" text-anchor="middle">hungry</text>
+<rect x="-10.0" y="134.0" width="200" height="40" rx="8" fill="#f7f9fc" stroke="#d0342c" stroke-width="3"/>
+<text x="90.0" y="148.0" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">C · v2</text>
+<text x="90.0" y="164.0" font-size="10.5" fill="#333" text-anchor="middle">eating</text>
+<text x="90.0" y="176.0" font-size="9" fill="#d0342c" text-anchor="middle">← 当前</text>
+<rect x="14.7" y="70.0" width="200" height="40" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="114.7" y="84.0" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">D</text>
+<text x="114.7" y="100.0" font-size="10.5" fill="#333" text-anchor="middle">resting</text>
+<rect x="20" y="30" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#2a7de1"/>
+<text x="40" y="42" font-size="11" fill="#333">exec</text>
+<rect x="20" y="52" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#e8912a"/>
+<text x="40" y="64" font-size="11" fill="#333">ask</text>
+<rect x="20" y="74" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#1a9c4c"/>
+<text x="40" y="86" font-size="11" fill="#333">conclude</text>
+<rect x="20" y="96" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#9c4cd4"/>
+<text x="40" y="108" font-size="11" fill="#333">fork</text>
+<text x="20" y="126" font-size="10" fill="#888">虚线=fallback 边 · 红框=当前节点</text>
+</svg>

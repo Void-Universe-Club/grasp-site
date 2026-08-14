@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000" font-family="Noto Serif CJK SC,PingFang SC,Microsoft YaHei,sans-serif">
+<path d="M832.4 294.9 Q 876.5 349.1 920.6 403.4" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M920.6 403.4 Q 974.7 466.1 1028.7 528.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1028.7 528.9 Q 1031.1 593.7 1033.4 658.5" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1033.4 658.5 Q 947.3 709.0 861.3 759.4" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M861.3 759.4 Q 723.2 780.4 585.0 801.4" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M585.0 801.4 Q 645.1 855.7 705.2 910.0" fill="none" stroke="#b5b5b5" stroke-width="1.3" stroke-dasharray="6,4"/>
+<path d="M363.4 466.2 Q 597.9 380.5 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1116.0 192.9 Q 974.2 243.9 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M234.3 602.9 Q 298.8 534.5 363.4 466.2" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M549.4 313.3 Q 690.9 304.1 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M585.0 801.4 Q 452.7 765.0 320.5 728.5" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M320.5 728.5 Q 277.4 665.7 234.3 602.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M363.4 466.2 Q 226.7 424.8 90.0 383.4" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M90.0 383.4 Q 166.1 326.7 242.1 270.1" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M242.1 270.1 Q 407.7 257.2 573.2 244.3" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M573.2 244.3 Q 717.4 219.5 861.5 194.7" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M861.5 194.7 Q 988.8 193.8 1116.0 192.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M242.1 270.1 Q 346.6 246.9 451.1 223.7" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M451.1 223.7 Q 500.3 268.5 549.4 313.3" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1335.5 268.9 Q 1083.9 281.9 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M573.2 244.3 Q 702.8 269.6 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M861.5 194.7 Q 846.9 244.8 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M451.1 223.7 Q 641.7 259.3 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M734.6 138.1 Q 783.5 216.5 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M775.3 127.8 Q 803.8 211.3 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1335.5 268.9 Q 1345.9 311.3 1356.4 353.6" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1356.4 353.6 Q 1094.4 324.2 832.4 294.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M451.1 223.7 Q 468.5 156.8 485.8 90.0" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M485.8 90.0 Q 610.2 114.1 734.6 138.1" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M485.8 90.0 Q 630.5 108.9 775.3 127.8" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1116.0 192.9 Q 1263.0 178.0 1410.0 163.1" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<path d="M1410.0 163.1 Q 1372.7 216.0 1335.5 268.9" fill="none" stroke="#b5b5b5" stroke-width="1.3"/>
+<rect x="732.4" y="258.9" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="832.4" y="272.9" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_ground</text>
+<text x="832.4" y="288.9" font-size="10.5" fill="#333" text-anchor="middle">Ground truth: an AI </text>
+<text x="832.4" y="302.9" font-size="10.5" fill="#333" text-anchor="middle">agent's weight memor</text>
+<text x="832.4" y="316.9" font-size="10.5" fill="#333" text-anchor="middle">y is unreliable; thi</text>
+<rect x="820.6" y="367.4" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="920.6" y="381.4" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_orient</text>
+<text x="920.6" y="397.4" font-size="10.5" fill="#333" text-anchor="middle">Orient: what is the </text>
+<text x="920.6" y="411.4" font-size="10.5" fill="#333" text-anchor="middle">task? Knowns, unknow</text>
+<text x="920.6" y="425.4" font-size="10.5" fill="#333" text-anchor="middle">ns, constraints? Map</text>
+<rect x="928.7" y="492.9" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1028.7" y="506.9" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_analyze</text>
+<text x="1028.7" y="522.9" font-size="10.5" fill="#333" text-anchor="middle">Analyze: derive from</text>
+<text x="1028.7" y="536.9" font-size="10.5" fill="#333" text-anchor="middle"> knowns; identify bl</text>
+<text x="1028.7" y="550.9" font-size="10.5" fill="#333" text-anchor="middle">ind spots (nodes lac</text>
+<rect x="933.4" y="622.5" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1033.4" y="636.5" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_plan</text>
+<text x="1033.4" y="652.5" font-size="10.5" fill="#333" text-anchor="middle">Action plan: pick on</text>
+<text x="1033.4" y="666.5" font-size="10.5" fill="#333" text-anchor="middle">e outgoing edge as t</text>
+<text x="1033.4" y="680.5" font-size="10.5" fill="#333" text-anchor="middle">he next move; before</text>
+<rect x="761.3" y="723.4" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="861.3" y="737.4" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_act</text>
+<text x="861.3" y="753.4" font-size="10.5" fill="#333" text-anchor="middle">Execute: call tools </text>
+<text x="861.3" y="767.4" font-size="10.5" fill="#333" text-anchor="middle">/ write code / answe</text>
+<text x="861.3" y="781.4" font-size="10.5" fill="#333" text-anchor="middle">r; record the outcom</text>
+<rect x="485.0" y="765.4" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="585.0" y="779.4" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_reflect</text>
+<text x="585.0" y="795.4" font-size="10.5" fill="#333" text-anchor="middle">Reflect: does the ou</text>
+<text x="585.0" y="809.4" font-size="10.5" fill="#333" text-anchor="middle">tcome match expectat</text>
+<text x="585.0" y="823.4" font-size="10.5" fill="#333" text-anchor="middle">ion? The difference </text>
+<rect x="263.4" y="430.2" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="363.4" y="444.2" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_learn</text>
+<text x="363.4" y="460.2" font-size="10.5" fill="#333" text-anchor="middle">Learn: persist the r</text>
+<text x="363.4" y="474.2" font-size="10.5" fill="#333" text-anchor="middle">eflection as a new n</text>
+<text x="363.4" y="488.2" font-size="10.5" fill="#333" text-anchor="middle">ode/edge (append), u</text>
+<rect x="605.2" y="874.0" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#1a9c4c" stroke-width="1.4"/>
+<text x="705.2" y="888.0" font-size="11" font-weight="bold" fill="#1a9c4c" text-anchor="middle">m_done</text>
+<text x="705.2" y="904.0" font-size="10.5" fill="#333" text-anchor="middle">Done: thinking compl</text>
+<text x="705.2" y="918.0" font-size="10.5" fill="#333" text-anchor="middle">ete, conclusion pers</text>
+<text x="705.2" y="932.0" font-size="10.5" fill="#333" text-anchor="middle">isted; return to the</text>
+<rect x="1016.0" y="156.9" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1116.0" y="170.9" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_comm_protocol</text>
+<text x="1116.0" y="186.9" font-size="10.5" fill="#333" text-anchor="middle">Behavior protocol (e</text>
+<text x="1116.0" y="200.9" font-size="10.5" fill="#333" text-anchor="middle">xplicit user require</text>
+<text x="1116.0" y="214.9" font-size="10.5" fill="#333" text-anchor="middle">ment): before every </text>
+<rect x="134.3" y="566.9" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="234.3" y="580.9" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_gate_generic</text>
+<text x="234.3" y="596.9" font-size="10.5" fill="#333" text-anchor="middle">Generality gate: bef</text>
+<text x="234.3" y="610.9" font-size="10.5" fill="#333" text-anchor="middle">ore any insert/add-e</text>
+<text x="234.3" y="624.9" font-size="10.5" fill="#333" text-anchor="middle">dge into the meta se</text>
+<rect x="449.4" y="277.3" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="549.4" y="291.3" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_doubt_topo</text>
+<text x="549.4" y="307.3" font-size="10.5" fill="#333" text-anchor="middle">Handling doubts: use</text>
+<text x="549.4" y="321.3" font-size="10.5" fill="#333" text-anchor="middle">r doubts are not alw</text>
+<text x="549.4" y="335.3" font-size="10.5" fill="#333" text-anchor="middle">ays right — the test</text>
+<rect x="220.5" y="692.5" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="320.5" y="706.5" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_explore_diff</text>
+<text x="320.5" y="722.5" font-size="10.5" fill="#333" text-anchor="middle">Exploration-diff roo</text>
+<text x="320.5" y="736.5" font-size="10.5" fill="#333" text-anchor="middle">t cause: when new vs</text>
+<text x="320.5" y="750.5" font-size="10.5" fill="#333" text-anchor="middle"> old results differ </text>
+<rect x="-10.0" y="347.4" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="90.0" y="361.4" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_oos_protocol</text>
+<text x="90.0" y="377.4" font-size="10.5" fill="#333" text-anchor="middle">Out-of-sample valida</text>
+<text x="90.0" y="391.4" font-size="10.5" fill="#333" text-anchor="middle">tion: any data-drive</text>
+<text x="90.0" y="405.4" font-size="10.5" fill="#333" text-anchor="middle">n conclusion splits </text>
+<rect x="142.1" y="234.1" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="242.1" y="248.1" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_metric_pitfall</text>
+<text x="242.1" y="264.1" font-size="10.5" fill="#333" text-anchor="middle">Metric discipline: d</text>
+<text x="242.1" y="278.1" font-size="10.5" fill="#333" text-anchor="middle">efine and declare me</text>
+<text x="242.1" y="292.1" font-size="10.5" fill="#333" text-anchor="middle">trics (return algori</text>
+<rect x="473.2" y="208.3" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="573.2" y="222.3" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_sweep2</text>
+<text x="573.2" y="238.3" font-size="10.5" fill="#333" text-anchor="middle">Model selection: can</text>
+<text x="573.2" y="252.3" font-size="10.5" fill="#333" text-anchor="middle">didates need robustn</text>
+<text x="573.2" y="266.3" font-size="10.5" fill="#333" text-anchor="middle">ess checks (multi-pa</text>
+<rect x="761.5" y="158.7" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="861.5" y="172.7" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_humble</text>
+<text x="861.5" y="188.7" font-size="10.5" fill="#333" text-anchor="middle">Cognition: explorati</text>
+<text x="861.5" y="202.7" font-size="10.5" fill="#333" text-anchor="middle">on is unbounded — an</text>
+<text x="861.5" y="216.7" font-size="10.5" fill="#333" text-anchor="middle">y 'best' is only a l</text>
+<rect x="351.1" y="187.7" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="451.1" y="201.7" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_user_audit</text>
+<text x="451.1" y="217.7" font-size="10.5" fill="#333" text-anchor="middle">Cognition: doubts an</text>
+<text x="451.1" y="231.7" font-size="10.5" fill="#333" text-anchor="middle">d abnormal signals a</text>
+<text x="451.1" y="245.7" font-size="10.5" fill="#333" text-anchor="middle">re the highest-prior</text>
+<rect x="634.6" y="102.1" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="734.6" y="116.1" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_vol_targeting</text>
+<text x="734.6" y="132.1" font-size="10.5" fill="#333" text-anchor="middle">Strategy method: siz</text>
+<text x="734.6" y="146.1" font-size="10.5" fill="#333" text-anchor="middle">ing by a risk budget</text>
+<text x="734.6" y="160.1" font-size="10.5" fill="#333" text-anchor="middle"> improves compoundin</text>
+<rect x="675.3" y="91.8" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="775.3" y="105.8" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_date_align_metric</text>
+<text x="775.3" y="121.8" font-size="10.5" fill="#333" text-anchor="middle">Evaluation pitfall: </text>
+<text x="775.3" y="135.8" font-size="10.5" fill="#333" text-anchor="middle">cross-asset time-ser</text>
+<text x="775.3" y="149.8" font-size="10.5" fill="#333" text-anchor="middle">ies comparisons must</text>
+<rect x="1235.5" y="232.9" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1335.5" y="246.9" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_factor_design</text>
+<text x="1335.5" y="262.9" font-size="10.5" fill="#333" text-anchor="middle">Exploration method: </text>
+<text x="1335.5" y="276.9" font-size="10.5" fill="#333" text-anchor="middle">feature design is th</text>
+<text x="1335.5" y="290.9" font-size="10.5" fill="#333" text-anchor="middle">e first degree of fr</text>
+<rect x="1256.4" y="317.6" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1356.4" y="331.6" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_meta_games</text>
+<text x="1356.4" y="347.6" font-size="10.5" fill="#333" text-anchor="middle">Meta-session fine-tu</text>
+<text x="1356.4" y="361.6" font-size="10.5" fill="#333" text-anchor="middle">ne protocol: use sce</text>
+<text x="1356.4" y="375.6" font-size="10.5" fill="#333" text-anchor="middle">nario games to perio</text>
+<rect x="385.8" y="54.0" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="485.8" y="68.0" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_possize_metric</text>
+<text x="485.8" y="84.0" font-size="10.5" fill="#333" text-anchor="middle">Evaluation method: r</text>
+<text x="485.8" y="98.0" font-size="10.5" fill="#333" text-anchor="middle">eturn vs benchmark c</text>
+<text x="485.8" y="112.0" font-size="10.5" fill="#333" text-anchor="middle">omparisons must decl</text>
+<rect x="1310.0" y="127.1" width="200" height="72" rx="8" fill="#f7f9fc" stroke="#2a7de1" stroke-width="1.4"/>
+<text x="1410.0" y="141.1" font-size="11" font-weight="bold" fill="#2a7de1" text-anchor="middle">m_walk_decision</text>
+<text x="1410.0" y="157.1" font-size="10.5" fill="#333" text-anchor="middle">Behavior protocol: b</text>
+<text x="1410.0" y="171.1" font-size="10.5" fill="#333" text-anchor="middle">efore every key deci</text>
+<text x="1410.0" y="185.1" font-size="10.5" fill="#333" text-anchor="middle">sion (design / trade</text>
+<rect x="20" y="30" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#2a7de1"/>
+<text x="40" y="42" font-size="11" fill="#333">exec</text>
+<rect x="20" y="52" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#e8912a"/>
+<text x="40" y="64" font-size="11" fill="#333">ask</text>
+<rect x="20" y="74" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#1a9c4c"/>
+<text x="40" y="86" font-size="11" fill="#333">conclude</text>
+<rect x="20" y="96" width="14" height="14" rx="3" fill="#f7f9fc" stroke="#9c4cd4"/>
+<text x="40" y="108" font-size="11" fill="#333">fork</text>
+<text x="20" y="126" font-size="10" fill="#888">虚线=fallback 边 · 红框=当前节点</text>
+</svg>

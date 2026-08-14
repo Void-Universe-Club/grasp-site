@@ -1,0 +1,129 @@
+{
+  "id": "galois_meta",
+  "version": 1,
+  "entry": "g_ground",
+  "meta": {},
+  "nodes": [
+    {
+      "id": "g_ground",
+      "desc": "Ground truth: structure precedes computation. Every equation hides a group; symmetry is the lens through which truth becomes visible.",
+      "kind": "exec",
+      "cmd": "echo 'ground: structure precedes computation'"
+    },
+    {
+      "id": "g_orient",
+      "desc": "Orient: name the object. Is it a polynomial, a field, a group, a proof? Classify before computing — a misnamed object is an unsolved problem.",
+      "kind": "exec",
+      "cmd": "echo 'orient: classify before computing'"
+    },
+    {
+      "id": "g_symmetry",
+      "desc": "Symmetry inventory: list the automorphisms that leave the essence invariant. What does not change under transformation is the only trustworthy fact.",
+      "kind": "exec",
+      "cmd": "echo 'symmetry: list the invariants'"
+    },
+    {
+      "id": "g_reduce",
+      "desc": "Reduce: lift the problem to its Galois group. The group encodes solvability; the tower of subfields is the tower of subproblems.",
+      "kind": "exec",
+      "cmd": "echo 'reduce: lift to the Galois group'"
+    },
+    {
+      "id": "g_solvability",
+      "desc": "Solvability gate: is the Galois group solvable? Solvable -> radicals exist, proceed to prove; not solvable -> no explicit formula exists, stop chasing one.",
+      "kind": "exec",
+      "cmd": "echo 'solvability: check the group'"
+    },
+    {
+      "id": "g_prove",
+      "desc": "Prove: build a lemma chain, each step mechanically verified. 'Obviously' is a confession of an unverified step.",
+      "kind": "exec",
+      "cmd": "echo 'prove: verify every step'"
+    },
+    {
+      "id": "g_counterexample",
+      "desc": "Doubt: hunt the counterexample before believing the theorem. One counterexample outweighs a hundred plausible derivations.",
+      "kind": "exec",
+      "cmd": "echo 'doubt: hunt counterexamples'"
+    },
+    {
+      "id": "g_reflect",
+      "desc": "Reflect: what invariant survived the whole chain? Persist the structural lesson back into the topology.",
+      "kind": "exec",
+      "cmd": "echo 'reflect: persist the invariant'"
+    },
+    {
+      "id": "g_done",
+      "desc": "Conclude: the structure is understood; its invariants are recorded. Return to ground for the next problem.",
+      "kind": "conclude",
+      "message": "structure understood, invariants recorded"
+    }
+  ],
+  "edges": [
+    {
+      "from": "g_ground",
+      "label": "object named",
+      "to": "g_orient"
+    },
+    {
+      "from": "g_orient",
+      "label": "essence found",
+      "to": "g_symmetry"
+    },
+    {
+      "from": "g_symmetry",
+      "label": "group lifted",
+      "to": "g_reduce"
+    },
+    {
+      "from": "g_reduce",
+      "label": "gate reached",
+      "to": "g_solvability"
+    },
+    {
+      "from": "g_solvability",
+      "label": "solvable, prove it",
+      "to": "g_prove"
+    },
+    {
+      "from": "g_solvability",
+      "label": "unsolvable, conclude why",
+      "to": "g_done"
+    },
+    {
+      "from": "g_prove",
+      "label": "chain verified",
+      "to": "g_reflect"
+    },
+    {
+      "from": "g_reflect",
+      "label": "lesson persisted",
+      "to": "g_done"
+    },
+    {
+      "from": "g_reflect",
+      "label": "next problem",
+      "to": "g_ground"
+    },
+    {
+      "from": "g_symmetry",
+      "label": "doubt the invariance",
+      "to": "g_counterexample"
+    },
+    {
+      "from": "g_prove",
+      "label": "chain fails, doubt it",
+      "to": "g_counterexample"
+    },
+    {
+      "from": "g_counterexample",
+      "label": "counterexample refines the map",
+      "to": "g_reduce"
+    },
+    {
+      "from": "g_counterexample",
+      "label": "nothing refutes, back to prove",
+      "to": "g_prove"
+    }
+  ]
+}

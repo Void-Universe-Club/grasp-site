@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>grasp — graph-topology memory for LLM agents</title>
+<meta name="description" content="grasp: C++ external-memory framework where an LLM strolls a session graph. The two feedback channels — test-script returns (likelihood) vs graph topology (belief) — derived formally.">
+<script>
+window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --line:#2d333b;
+          --fg:#e6edf3; --muted:#8b949e; --accent:#2a7de1; --ok:#3fb950; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg);
+         font-family:-apple-system,"Segoe UI","Noto Sans",sans-serif; line-height:1.65; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+  header { padding:80px 0 48px; text-align:center;
+           background:radial-gradient(900px 320px at 50% -40px, #12263f 0%, transparent 70%); }
+  .logo { font-size:60px; font-weight:800; letter-spacing:1px; }
+  .logo span { color:var(--accent); }
+  .tagline { font-size:18px; color:var(--muted); margin-top:12px; }
+  .badge { display:inline-block; border:1px solid var(--line); background:var(--panel);
+           border-radius:999px; padding:4px 16px; font-size:13px; color:var(--muted); margin-top:18px; }
+  .badge b { color:var(--fg); font-weight:600; }
+  section { padding:48px 0; border-top:1px solid var(--line); }
+  h2 { font-size:25px; margin-bottom:6px; }
+  .sub { color:var(--muted); margin-bottom:28px; }
+  .theorem { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+             padding:22px 26px; margin-bottom:16px; }
+  .theorem h3 { color:var(--ok); font-size:16px; margin-bottom:10px; }
+  .theorem p { font-size:14.5px; }
+  .theorem .note { color:var(--muted); font-size:13.5px; margin-top:10px; }
+  mjx-container { color:var(--fg); }
+  .verdict { border-left:3px solid var(--accent); background:var(--panel);
+             padding:16px 20px; border-radius:0 10px 10px 0; color:var(--muted); font-size:14.5px; }
+  .demo-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px; margin-top:22px; }
+  .demo-cell { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .demo-cell h3 { font-size:14.5px; margin-bottom:2px; }
+  .demo-cell h3 .tagA { color:#f85149; } .demo-cell h3 .tagB { color:#58a6ff; } .demo-cell h3 .tagC { color:#3fb950; }
+  .demo-cell canvas { display:block; width:100%; border-radius:8px; background:#0a0e14; margin-top:8px; }
+  .demo-cell p { font-size:13px; color:var(--muted); margin-top:8px; }
+  .demo-stats { font-size:13px; color:var(--fg); margin-top:6px; font-family:"SF Mono",Consolas,monospace; }
+  .demo-stats b { color:var(--ok); }
+  .demo-actions { margin-top:16px; }
+  .demo-actions button { background:var(--accent); color:#fff; border:0; border-radius:8px;
+           padding:10px 22px; font-size:14px; font-weight:600; cursor:pointer; }
+  .demo-actions .hint { color:var(--muted); font-size:12.5px; margin-left:12px; }
+  .mkt-card { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+              padding:20px 22px; margin-bottom:14px; display:flex; gap:16px; align-items:flex-start; }
+  .mkt-card .mkt-info { flex:1; min-width:0; }
+  .mkt-card h3 { font-size:15px; color:var(--accent); }
+  .mkt-card .mkt-tags { margin-top:6px; }
+  .mkt-card .mkt-tags span { display:inline-block; border:1px solid var(--line); border-radius:999px;
+              padding:2px 10px; font-size:11px; color:var(--muted); margin:2px 4px 0 0; }
+  .mkt-card .mkt-desc { font-size:13.5px; color:var(--muted); margin-top:8px; }
+  .mkt-card .mkt-meta { font-size:12px; color:var(--muted); margin-top:8px;
+              font-family:"SF Mono",Consolas,monospace; }
+  .mkt-card a.btn { margin-top:12px; display:inline-block; padding:8px 18px; border-radius:8px;
+              background:var(--accent); color:#fff; text-decoration:none; font-weight:600; font-size:13px; }
+  .mkt-howto { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+              padding:20px 22px; }
+  .mkt-howto ol { margin:10px 0 0 20px; font-size:14px; color:var(--muted); }
+  .mkt-howto li { margin-bottom:6px; }
+  .mkt-howto code { background:var(--panel2); border-radius:5px; padding:1px 7px; font-size:12.5px; }
+  pre { background:#0a0e14; border:1px solid var(--line); border-radius:12px;
+        padding:16px 20px; overflow-x:auto; font-size:13.5px;
+        font-family:"SF Mono","JetBrains Mono",Consolas,monospace; line-height:1.55; }
+  pre .c { color:var(--muted); } pre .k { color:#d29922; } pre .s { color:#3fb950; }
+  footer { border-top:1px solid var(--line); padding:32px 0 56px; color:var(--muted);
+           font-size:13px; text-align:center; }
+  footer a { color:var(--accent); text-decoration:none; }
+  .gh-corner { position:fixed; top:14px; right:16px; z-index:50; display:flex; align-items:center;
+              gap:8px; padding:8px 14px; border-radius:999px; text-decoration:none;
+              background:var(--panel); border:1px solid var(--line); color:var(--muted);
+              font-size:13px; font-weight:600; transition:color .15s, border-color .15s; }
+  .gh-corner:hover { color:var(--fg); border-color:var(--accent); }
+  .gh-corner svg { width:18px; height:18px; fill:currentColor; }
+  .tabs { position:fixed; top:14px; left:16px; z-index:50; display:flex; gap:4px;
+          background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:4px; }
+  .tabs a { padding:6px 16px; border-radius:999px; text-decoration:none; color:var(--muted);
+            font-size:13px; font-weight:600; transition:color .15s, background .15s; }
+  .tabs a.active { color:#fff; background:var(--accent); }
+  .tabs a:hover:not(.active) { color:var(--fg); }
+</style>
+</head>
+<body>
+
+<nav class="tabs" aria-label="site navigation">
+  <a href="index.html" class="active">Overview</a>
+  <a href="market.html">Market</a>
+  <a href="tutorial.html">Tutorial</a>
+</nav>
+
+<a class="gh-corner" href="https://github.com/Void-Universe-Club/grasp"
+   target="_blank" rel="noopener" aria-label="grasp on GitHub">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+  grasp
+</a>
+
+<header>
+  <div class="wrap">
+    <div class="logo">grasp<span>.</span></div>
+    <div class="tagline">Graph-topology external memory for LLM agents.</div>
+    <div class="badge"><b>C++</b></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="duality">
+  <h2>Two feedback channels</h2>
+  <p class="sub">A session is a graph; the LLM strolls it and executes nodes. Two kinds of feedback reach the LLM — the test-script return and the graph topology. Both are feedback, but they are different channels: one is a <b>likelihood</b>, the other a <b>belief</b>.</p>
+
+  <div class="theorem">
+    <h3>Channel A — test-script return: an observation sample</h3>
+    <p>Executing node \(v\) yields one draw
+    \[ y_t \sim P(y \mid v, \theta), \qquad \hat\mu_v^{(1)} = y_t, \quad \operatorname{Var}[\hat\mu_v^{(1)}] = \sigma_v^2, \]
+    where \(\theta\) is the unknown task parameter. The draw carries irreducible aleatoric entropy
+    \(H[y_t \mid v, \theta] \ge 0\): the same node re-run need not return the same answer. The information a single
+    return can transfer is bounded by the channel capacity of one execution — it never accumulates.</p>
+  </div>
+
+  <div class="theorem">
+    <h3>Channel B — graph topology: accumulated memory</h3>
+    <p>The topology is a deterministic function of history:
+    \[ G_{t+1} = \Psi(G_t, a_t, y_t), \qquad H[G_{t+1} \mid G_t, a_t, y_t] = 0. \]
+    Memory adds no noise. It records visit counts \(n_v(t)\), and compresses \(n_v\) draws into a consistent estimator
+    \[ \hat\mu_v^{(n_v)} = \frac{1}{n_v}\sum_{i \le n_v} y_{v,i}, \qquad
+       \operatorname{Var}[\hat\mu_v^{(n_v)}] = \frac{\sigma_v^2}{n_v} \to 0, \]
+    with deviation decaying exponentially (Chernoff):
+    \[ P\big(|\hat\mu_v - \mu_v| &gt; \epsilon\big) \le 2 e^{-2 n_v \epsilon^2}. \]</p>
+  </div>
+
+  <div class="theorem">
+    <h3>Theorem — Bayes decomposition, and why topology alone steers exploration</h3>
+    <p>Every belief update consumes both channels simultaneously:
+    \[ P(\theta \mid \mathcal{H}_t) \;\propto\;
+       \underbrace{P(y_t \mid v_t, \theta)}_{\text{return: likelihood}}
+       \cdot
+       \underbrace{P(\theta \mid G_t)}_{\text{topo: prior}}. \]
+    A return updates only the likelihood of the node just executed; the topology carries the whole belief
+    \(P(\theta \mid G_t)\) — a sufficient statistic of history, so the LLM context needs \(\mathcal O(1)\) pointers
+    instead of the raw stream. The unexplored set \(U_t = \{v : n_v(t) = 0\}\) is exactly where expected
+    information gain is maximal:
+    \[ \mathrm{IG}(v) = H[\theta \mid G_t] - \mathbb{E}_{y \sim P(y|v,\theta)} H[\theta \mid G_t, y],
+       \qquad \arg\max_v \mathrm{IG}(v) \subseteq U_t. \]
+    A single return can only describe the node already executed; only the topology can say where to sample next.</p>
+    <p class="note">Corollary — variance ratio: one return is a sample with variance \(\sigma_v^2\); the topology
+    delivers \(\sigma_v^2/n_v\). The gap grows unboundedly with visits: the return is the innovation, the topology
+    is the memory that turns innovations into knowledge.</p>
+  </div>
+
+  <div class="verdict">
+    Test-script return = <b>observation channel</b> (likelihood · noisy · instantaneous).<br>
+    Graph topology = <b>belief channel</b> (prior · deterministic · persistent).<br>
+    Evidence without belief is noise; belief without evidence never moves.
+  </div>
+</section>
+
+<section id="necessity">
+  <h2>Why both are necessary</h2>
+  <p class="sub">Learning = posterior entropy drop. One update's information gain:</p>
+  <div class="theorem">
+    <p style="text-align:center; font-size:17px">\[ \mathrm{IG}(y_t) = H[\theta \mid G_t] - H[\theta \mid G_t, y_t] \;\ge\; 0 \]</p>
+    <p>Without returns: belief frozen, \(\mathrm{IG}=0\) — never learn. Without topology: every return is a
+    fresh \(\sigma^2\) sample, and the context window forgets it — learn and forget. In grasp, returns are
+    written into history, so the topology is their <b>superset</b>: \(\sigma_v^2 / n_v \to 0\) survives the window.
+    The memory must be external, because the window forgets by construction.</p>
+  </div>
+</section>
+
+<section id="evolve">
+  <h2>Self-improvement through graph evolution</h2>
+  <p class="sub">The topology is the agent's evolving brain, not a static config.</p>
+  <div class="verdict">
+    Every pitfall is persisted as a new node or edge; every reflection upgrades the principle chain;
+    every fork explores a risky branch on a child and keeps the parent clean. The same agent walking the
+    same graph gets measurably better over rounds — the graph itself is the improvement: append-only,
+    versioned, and never rewritten from scratch.
+  </div>
+</section>
+
+<section id="demo">
+  <h2>Play the necessity</h2>
+  <p class="sub">One maze, three feedback policies: returns only · topology only · both.</p>
+  <div class="demo-grid">
+    <div class="demo-cell">
+      <h3><span class="tagA">A</span> returns only — no memory</h3>
+      <canvas id="cvA" width="300" height="300"></canvas>
+      <p>Random walk, nothing recorded. Variance stays \(\sigma^2\) — steps explode, never converges.</p>
+      <div class="demo-stats" id="stA">steps: 0</div>
+    </div>
+    <div class="demo-cell">
+      <h3><span class="tagB">B</span> topology only — no returns</h3>
+      <canvas id="cvB" width="300" height="300"></canvas>
+      <p>Trusts a flawed prior map; execution returns are discarded. \(\mathrm{IG}=0\) — stuck on the first wrong wall forever.</p>
+      <div class="demo-stats" id="stB">steps: 0</div>
+    </div>
+    <div class="demo-cell">
+      <h3><span class="tagC">C</span> returns + topology</h3>
+      <canvas id="cvC" width="300" height="300"></canvas>
+      <p>Same flawed prior, but each step's return corrects the map: \(\sigma^2/n \to 0\). Arrives.</p>
+      <div class="demo-stats" id="stC">steps: 0</div>
+    </div>
+  </div>
+  <div class="demo-actions">
+    <button onclick="window.resetDemo()">New maze</button>
+    <span class="hint">all three run the same generated maze; B and C share the same corrupted prior map</span>
+  </div>
+</section>
+
+<section id="quickstart">
+  <h2>Quick start</h2>
+<pre><span class="c"># LLM calls go through a curl subprocess to an OpenAI-compatible /chat/completions endpoint
+# (OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL; key expanded by sh, never in argv)</span>
+$ <span class="k">make</span> &amp;&amp; ./grasp new graphs/meta.json --id my-meta
+$ ./grasp walk my-meta --choose 1
+$ ./grasp step my-meta m_act
+$ ./grasp drive my-meta --max-steps 10</pre>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>Contributions welcome.</b> Fork <a href="https://github.com/Void-Universe-Club/grasp">github.com/Void-Universe-Club/grasp</a> or the site repo
+    <a href="https://github.com/Void-Universe-Club/grasp-site">grasp-site</a> — new topologies for the market, docs, or core fixes.
+    See the README for how to submit a topology.</p>
+    <p style="margin-top:10px"><b>Cite in papers:</b> <a href="https://github.com/Void-Universe-Club/grasp">https://github.com/Void-Universe-Club/grasp</a></p>
+    <p style="margin-top:10px; color:#8b949e; font-size:12px;">© 2026 www.void-universe.com — all rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ---- maze demo: three feedback policies on one maze ----
+(function () {
+  const N = 12, CELL = 300 / N;
+  const cvs = { A: document.getElementById('cvA'), B: document.getElementById('cvB'), C: document.getElementById('cvC') };
+  const ctx = { A: cvs.A.getContext('2d'), B: cvs.B.getContext('2d'), C: cvs.C.getContext('2d') };
+  const st  = { A: document.getElementById('stA'), B: document.getElementById('stB'), C: document.getElementById('stC') };
+  const DIRS = [[0,1],[1,0],[0,-1],[-1,0]];
+  const MAXA = 900, MAXB = 600, MAXC = 600;
+  let maze, prior, A, B, C, timer = null;
+
+  function genMaze() {  // recursive-backtracker spanning tree: always solvable
+    const wallH = [], wallV = [];
+    for (let r = 0; r < N; r++) { wallH.push(Array(N-1).fill(true)); wallV.push(Array(N).fill(true)); }
+    const vis = Array.from({length:N}, () => Array(N).fill(false));
+    const stack = [[0,0]]; vis[0][0] = true;
+    while (stack.length) {
+      const [r,c] = stack[stack.length-1];
+      const opts = [];
+      for (const [dr,dc] of DIRS) {
+        const nr = r+dr, nc = c+dc;
+        if (nr>=0 && nr<N && nc>=0 && nc<N && !vis[nr][nc]) opts.push([nr,nc,dr,dc]);
+      }
+      if (!opts.length) { stack.pop(); continue; }
+      const [nr,nc,dr,dc] = opts[Math.floor(Math.random()*opts.length)];
+      if (dr === 0) wallH[r][Math.min(c,nc)] = false; else wallV[Math.min(r,nr)][c] = false;
+      vis[nr][nc] = true; stack.push([nr,nc]);
+    }
+    return { wallH, wallV };
+  }
+
+  function canGo(walls, r, c, dr, dc) {
+    const nr = r+dr, nc = c+dc;
+    if (nr<0 || nr>=N || nc<0 || nc>=N) return false;
+    if (dr === 0) return !walls.wallH[r][Math.min(c,nc)];
+    return !walls.wallV[Math.min(r,nr)][c];
+  }
+
+  function bfsPath(walls, sr, sc, tr, tc) {  // null if no path
+    const prev = Array.from({length:N}, () => Array(N).fill(null));
+    const q = [[sr,sc]]; prev[sr][sc] = [-1,-1];
+    while (q.length) {
+      const [r,c] = q.shift();
+      if (r===tr && c===tc) break;
+      for (const [dr,dc] of DIRS) {
+        if (!canGo(walls,r,c,dr,dc)) continue;
+        const nr=r+dr, nc=c+dc;
+        if (prev[nr][nc]) continue;
+        prev[nr][nc] = [r,c]; q.push([nr,nc]);
+      }
+    }
+    if (!prev[tr][tc]) return null;
+    const path = []; let cur = [tr,tc];
+    while (cur[0] !== -1) { path.push(cur); cur = prev[cur[0]][cur[1]]; }
+    return path.reverse();
+  }
+
+  function corrupt(walls, rate) {  // the flawed prior: real walls opened at random (fake shortcuts)
+    // openings only — the prior graph is a superset of the truth, never disconnected,
+    // so B's plan always exists but may cut through real walls.
+    const w = { wallH: walls.wallH.map(a=>a.slice()), wallV: walls.wallV.map(a=>a.slice()) };
+    for (let r=0;r<N;r++) for (let c=0;c<N-1;c++) if (w.wallH[r][c] && Math.random()<rate) w.wallH[r][c] = false;
+    for (let r=0;r<N;r++) for (let c=0;c<N;c++) if (w.wallV[r][c] && Math.random()<rate) w.wallV[r][c] = false;
+    return w;
+  }
+
+  function resetDemo() {
+    if (timer) { clearInterval(timer); timer = null; }
+    maze  = genMaze();
+    prior = corrupt(maze, 0.2);
+    A = { pos:[0,0], trail:[[0,0]], steps:0, color:'#f85149', done:false, status:'run' };
+    B = { pos:[0,0], trail:[[0,0]], steps:0, color:'#58a6ff', done:false, status:'run' };
+    C = { pos:[0,0], trail:[[0,0]], steps:0, color:'#3fb950', done:false, status:'run',
+          cogn:{ wallH:prior.wallH.map(a=>a.slice()), wallV:prior.wallV.map(a=>a.slice()) },
+          path:null, corrections:0, fixes:[] };
+    // B: one BFS on the flawed prior, never re-plans (returns discarded)
+    B.path = bfsPath(prior, 0, 0, N-1, N-1);
+    B.pathIdx = 1;
+    if (!B.path) { B.status = 'stuck: no path in prior'; B.done = true; }
+    timer = setInterval(tick, 45);
+  }
+
+  function tick() {
+    stepA(); stepB(); stepC(); draw();
+    if (A.done && B.done && C.done) { clearInterval(timer); timer = null; }
+  }
+
+  function stepA() {  // returns only: random walk, zero memory -> never converges
+    if (A.done) return;
+    for (let k = 0; k < 3 && !A.done; k++) {  // 3 moves per tick: A's explosion is visible fast
+      const opts = [];
+      for (const [dr,dc] of DIRS) if (canGo(maze, A.pos[0], A.pos[1], dr, dc)) opts.push([A.pos[0]+dr, A.pos[1]+dc]);
+      if (!opts.length) break;
+      const nxt = opts[Math.floor(Math.random()*opts.length)];
+      A.pos = nxt; A.trail.push(nxt); A.steps++;
+      if (A.pos[0]===N-1 && A.pos[1]===N-1) { A.status = 'arrived'; A.done = true; }
+      else if (A.steps >= MAXA) { A.status = 'timeout: ' + A.steps + ' steps'; A.done = true; }
+    }
+  }
+
+  function stepB() {  // topology only: plans once on flawed prior, hits the first real wall and never corrects
+    if (B.done || !B.path) return;
+    if (B.pathIdx >= B.path.length) { B.status = 'arrived'; B.done = true; return; }
+    const [r,c] = B.pos, [nr,nc] = B.path[B.pathIdx];
+    const dr = nr-r, dc = nc-c;
+    if (!canGo(maze, r, c, dr, dc)) {  // prior said open, world says wall: stuck forever, IG=0
+      B.status = 'stuck: prior said open, wall is real'; B.stuckAt = [r,c]; B.done = true; return;
+    }
+    B.pos = [nr,nc]; B.trail.push([nr,nc]); B.steps++; B.pathIdx++;
+    if (B.pos[0]===N-1 && B.pos[1]===N-1) { B.status = 'arrived'; B.done = true; }
+    else if (B.steps >= MAXB) { B.status = 'timeout'; B.done = true; }
+  }
+
+  function stepC() {  // both: same flawed prior, but each return corrects the map (Bayes: prior x likelihood)
+    if (C.done) return;
+    if (!C.path || C.pathIdx >= C.path.length) {
+      C.path = bfsPath(C.cogn, C.pos[0], C.pos[1], N-1, N-1);
+      C.pathIdx = 1;
+      if (!C.path) { C.status = 'stuck'; C.done = true; return; }
+    }
+    const [r,c] = C.pos, [nr,nc] = C.path[C.pathIdx];
+    const dr = nr-r, dc = nc-c;
+    if (!canGo(maze, r, c, dr, dc)) {  // return: failed -> write the correction into the topology
+      const wall = dr===0 ? C.cogn.wallH[r][Math.min(c,nc)] : C.cogn.wallV[Math.min(r,nr)][c];
+      if (dr===0) C.cogn.wallH[r][Math.min(c,nc)] = true; else C.cogn.wallV[Math.min(r,nr)][c] = true;
+      if (!wall) { C.corrections++; C.fixes.push([dr===0?r:Math.min(r,nr), dr===0?Math.min(c,nc):c, dr===0?'H':'V']); }
+      C.path = null; C.steps++;
+      if (C.steps >= MAXC) { C.status = 'timeout'; C.done = true; }
+      return;
+    }
+    C.pos = [nr,nc]; C.trail.push([nr,nc]); C.steps++; C.pathIdx++;
+    // observe the 4 neighbors of the new cell, write truth into the topology
+    for (const [odr,odc] of DIRS) {
+      const ar = nr+odr, ac = nc+odc;
+      if (ar<0 || ar>=N || ac<0 || ac>=N) continue;
+      const open = canGo(maze, nr, nc, odr, odc);
+      if (odr===0) C.cogn.wallH[nr][Math.min(nc,ac)] = !open; else C.cogn.wallV[Math.min(nr,ar)][nc] = !open;
+    }
+    if (C.pos[0]===N-1 && C.pos[1]===N-1) { C.status = 'arrived in ' + C.steps + ' steps, ' + C.corrections + ' corrections'; C.done = true; }
+    else if (C.steps >= MAXC) { C.status = 'timeout'; C.done = true; }
+  }
+
+  function draw() {
+    drawOne(ctx.A, maze, A, 'A');
+    drawOne(ctx.B, maze, B, 'B', B.path);
+    drawOne(ctx.C, maze, C, 'C');
+    st.A.textContent = 'steps: ' + A.steps + '  ·  ' + A.status;
+    st.B.textContent = 'steps: ' + B.steps + '  ·  ' + B.status;
+    st.C.textContent = 'steps: ' + C.steps + '  ·  corrections: ' + C.corrections + '  ·  ' + C.status;
+  }
+
+  function drawOne(g, walls, ag, tag, plan) {
+    g.fillStyle = '#0a0e14'; g.fillRect(0, 0, 300, 300);
+    // start / goal
+    g.fillStyle = '#3fb950'; g.beginPath(); g.arc(CELL/2, CELL/2, 5, 0, 7); g.fill();
+    g.fillStyle = '#d29922'; g.beginPath(); g.arc(300-CELL/2, 300-CELL/2, 5, 0, 7); g.fill();
+    // plan (B's one-shot prior path, dashed — kept visible after it gets stuck)
+    if (plan) {
+      g.strokeStyle = ag.color; g.globalAlpha = 0.35; g.lineWidth = 2; g.setLineDash([3,3]); g.beginPath();
+      plan.forEach((p,i) => { i ? g.lineTo(p[1]*CELL+CELL/2, p[0]*CELL+CELL/2) : g.moveTo(p[1]*CELL+CELL/2, p[0]*CELL+CELL/2); });
+      g.stroke(); g.setLineDash([]); g.globalAlpha = 1;
+    }
+    // stuck marker (B: where the prior path hit a real wall)
+    if (ag.stuckAt) {
+      const [sr,sc] = ag.stuckAt;
+      g.strokeStyle = '#f85149'; g.lineWidth = 3;
+      g.beginPath(); g.arc(sc*CELL+CELL/2, sr*CELL+CELL/2, 9, 0, 7); g.stroke();
+    }
+    // correction marks (C: walls it flipped)
+    if (ag.fixes) for (const [r,c,k] of ag.fixes) {
+      g.strokeStyle = '#f85149'; g.lineWidth = 2;
+      const x = k==='H' ? (c+1)*CELL : c*CELL + CELL/2, y = k==='H' ? r*CELL + CELL/2 : (r+1)*CELL;
+      g.beginPath(); g.moveTo(x-3,y-3); g.lineTo(x+3,y+3); g.moveTo(x+3,y-3); g.lineTo(x-3,y+3); g.stroke();
+    }
+    // trail
+    g.strokeStyle = ag.color; g.globalAlpha = 0.55; g.lineWidth = 2; g.beginPath();
+    ag.trail.forEach((p,i) => { i ? g.lineTo(p[1]*CELL+CELL/2, p[0]*CELL+CELL/2) : g.moveTo(p[1]*CELL+CELL/2, p[0]*CELL+CELL/2); });
+    g.stroke(); g.globalAlpha = 1;
+    // walls
+    g.strokeStyle = '#e6edf3'; g.lineWidth = 2; g.beginPath();
+    for (let r=0;r<N;r++) for (let c=0;c<N-1;c++) if (walls.wallH[r][c]) { g.moveTo((c+1)*CELL, r*CELL); g.lineTo((c+1)*CELL, (r+1)*CELL); }
+    for (let r=0;r<N-1;r++) for (let c=0;c<N;c++) if (walls.wallV[r][c]) { g.moveTo(c*CELL, (r+1)*CELL); g.lineTo((c+1)*CELL, (r+1)*CELL); }
+    g.stroke();
+    g.strokeStyle = '#2d333b'; g.strokeRect(0, 0, 300, 300);
+    // agent
+    g.fillStyle = ag.color; g.beginPath(); g.arc(ag.pos[1]*CELL+CELL/2, ag.pos[0]*CELL+CELL/2, 5, 0, 7); g.fill();
+    g.fillStyle = '#e6edf3'; g.font = '10px monospace'; g.fillText(tag, 6, 14);
+  }
+
+  window.resetDemo = resetDemo;
+  resetDemo();
+})();
+</script>
+
+</body>
+</html>
