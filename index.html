@@ -83,6 +83,22 @@ window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\
             font-size:13px; font-weight:600; transition:color .15s, background .15s; }
   .tabs a.active { color:#fff; background:var(--accent); }
   .tabs a:hover:not(.active) { color:var(--fg); }
+  /* download: nodejs-style green primary + ghost secondary */
+  .tabs a.dl-pill { margin-left:4px; color:#fff; border:1px solid transparent;
+          background:linear-gradient(180deg,#2ea043,#238636); }
+  .tabs a.dl-pill:hover { filter:brightness(1.12); }
+  .dl-row { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:26px; }
+  .dl-btn { display:inline-flex; align-items:center; gap:9px; padding:12px 22px;
+            border-radius:10px; font-size:14.5px; font-weight:600; text-decoration:none;
+            border:1px solid var(--line); background:var(--panel); color:var(--fg);
+            transition:border-color .15s, transform .15s; }
+  .dl-btn:hover { border-color:var(--accent); transform:translateY(-1px); }
+  .dl-btn svg { width:17px; height:17px; fill:currentColor; flex:none; }
+  .dl-btn small { display:block; font-weight:400; font-size:11px; color:var(--muted); }
+  .dl-btn.primary { background:linear-gradient(180deg,#3fb950,#238636); border-color:#238636;
+            color:#fff; box-shadow:0 6px 22px rgba(46,160,67,.28); }
+  .dl-btn.primary small { color:#c6f0cd; }
+  .dl-btn.ghost { background:transparent; }
 </style>
 </head>
 <body>
@@ -91,6 +107,7 @@ window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\
   <a href="index.html" class="active">Overview</a>
   <a href="market.html">Market</a>
   <a href="tutorial.html">Tutorial</a>
+  <a href="#download" class="dl-pill">Download</a>
 </nav>
 
 <a class="gh-corner" href="https://github.com/Void-Universe-Club/grasp"
@@ -104,6 +121,17 @@ window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\
     <div class="logo">grasp<span>.</span></div>
     <div class="tagline">Graph-topology external memory for LLM agents.</div>
     <div class="badge"><b>C++</b></div>
+    <div class="dl-row" id="download">
+      <a class="dl-btn primary" id="dl-main" href="https://github.com/Void-Universe-Club/grasp/releases/latest"
+         target="_blank" rel="noopener" download>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.75-3.75a.75.75 0 0 0-1.06-1.06L8.75 8.69V1.75a.75.75 0 0 0-1.5 0v6.94L4.78 5.97a.75.75 0 0 0-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5z"/></svg>
+        <span>Download<small id="dl-main-sub">latest release</small></span>
+      </a>
+      <a class="dl-btn" href="https://github.com/Void-Universe-Club/grasp/releases/latest/download/grasp-windows-x64.zip" target="_blank" rel="noopener" download>Windows x64</a>
+      <a class="dl-btn" href="https://github.com/Void-Universe-Club/grasp/releases/latest/download/grasp-linux-x64.tar.gz" target="_blank" rel="noopener" download>Linux x64</a>
+      <a class="dl-btn" href="https://github.com/Void-Universe-Club/grasp/releases/latest/download/grasp-macos-arm64.tar.gz" target="_blank" rel="noopener" download>macOS arm64</a>
+      <a class="dl-btn ghost" href="https://github.com/Void-Universe-Club/grasp/releases" target="_blank" rel="noopener">All releases &amp; source</a>
+    </div>
   </div>
 </header>
 
@@ -213,6 +241,7 @@ window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\
 
 <section id="quickstart">
   <h2>Quick start</h2>
+  <p class="sub">Grab a prebuilt binary from <a href="#download" style="color:var(--accent)">Download</a> (unzip and run <code>./grasp</code>), or build from source:</p>
 <pre><span class="c"># LLM calls go through a curl subprocess to an OpenAI-compatible /chat/completions endpoint
 # (OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL; key expanded by sh, never in argv)</span>
 $ <span class="k">make</span> &amp;&amp; ./grasp new graphs/meta.json --id my-meta
@@ -424,6 +453,38 @@ $ ./grasp drive my-meta --max-steps 10</pre>
 
   window.resetDemo = resetDemo;
   resetDemo();
+})();
+</script>
+
+<script>
+// ---- download: detect visitor platform, point the primary button at its asset ----
+(function () {
+  const base = 'https://github.com/Void-Universe-Club/grasp/releases/latest/download/';
+  const ASSETS = {
+    windows: ['grasp-windows-x64.zip',        'Windows x64 · zip'],
+    'windows-arm': ['grasp-windows-x64.zip',  'Windows ARM · zip'],
+    mac:     ['grasp-macos-arm64.tar.gz',     'macOS Apple Silicon · tar.gz'],
+    linux:   ['grasp-linux-x64.tar.gz',       'Linux x86-64 · tar.gz'],
+    'linux-arm': ['grasp-linux-x64.tar.gz',   'Linux arm64 · tar.gz']
+  };
+  function pick() {
+    const ua = navigator.userAgent;
+    if (/Windows/.test(ua)) return /ARM/i.test(ua) ? 'windows-arm' : 'windows';
+    if (/Mac/.test(ua)) return 'mac';                                   // Intel Macs: build from source
+    if (/Android/.test(ua)) return 'linux-arm';
+    if (/Linux/.test(ua)) return 'linux';
+    return 'linux';
+  }
+  const os = pick(), main = document.getElementById('dl-main');
+  if (main && ASSETS[os]) {
+    main.href = base + ASSETS[os][0];
+    document.getElementById('dl-main-sub').textContent = ASSETS[os][1];
+  }
+  fetch('https://api.github.com/repos/Void-Universe-Club/grasp/releases/latest')
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { const b = document.querySelector('header .badge');
+                 if (d && d.tag_name && b) b.innerHTML = '<b>C++</b> · release <b>' + d.tag_name + '</b>'; })
+    .catch(() => {});                                                    // offline / rate limit: keep badge as is
 })();
 </script>
 
